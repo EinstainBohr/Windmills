@@ -78,7 +78,6 @@ int main()
 
                     if (middle > distance  )
                         middle = distance;
-                    cout << middle <<endl;
                 }
 
                 if( middle > 100){                        //要求间距阈值大小
