@@ -44,7 +44,7 @@ int main()
 
             vector<Point> points;
             double area = contourArea(contours[i]);
-            if (area < 800 || 1000 < area) continue;           //装甲板链接范围大小
+            if (area < 800 || 1000 < area) continue;           //装甲板范围大小
             drawContours(image, contours, static_cast<int>(i), Scalar(0), 2);
 
             points = contours[i];
@@ -65,7 +65,7 @@ int main()
 
                     vector<Point> pointsA;
                     double area = contourArea(contours[j]);
-                    if (area < 1200 || 5000 < area) continue;   //链接轮廓大小
+                    if (area < 1200 || 5000 < area) continue;   //链接部分轮廓大小
 
                     pointsA = contours[j];
 
