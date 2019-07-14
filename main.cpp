@@ -49,7 +49,7 @@ int main()
 
             vector<Point> points;
             double area = contourArea(contours[i]);
-            if (area < 50 || 1e4 < area) continue;           //装甲板链接范围大小
+            if (area < 50 || 1e4 < area) continue;           
             drawContours(image, contours, static_cast<int>(i), Scalar(0), 2);
 
             points = contours[i];
