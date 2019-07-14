@@ -32,7 +32,7 @@ int main()
 
         cvtColor(image,image,COLOR_BGR2GRAY);
 
-        threshold(image, image, 80, 255, THRESH_BINARY);
+        threshold(image, image, 80, 255, THRESH_BINARY);        //阈值要自己调
 
 
         dilate(image,image,Mat());
@@ -41,7 +41,7 @@ int main()
 
         floodFill(image,Point(5,50),Scalar(255),0,FLOODFILL_FIXED_RANGE);
 
-        threshold(image, image, 100, 255, THRESH_BINARY_INV);
+        threshold(image, image, 80, 255, THRESH_BINARY_INV);
 
         vector<vector<Point>> contours;
         findContours(image, contours, RETR_LIST, CHAIN_APPROX_NONE);
@@ -90,7 +90,7 @@ int main()
                     }
                 }
 
-                if( middle > 60){
+                if( middle > 60){                               //这个距离也要根据实际情况调
                     cv::circle(binary,Point(rrect.center.x,rrect.center.y),15,cv::Scalar(0,0,255),4);
                 }
             }
