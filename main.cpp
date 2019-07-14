@@ -9,7 +9,7 @@ using namespace cv;
 
 int main()
 {
-    VideoCapture cap("/home/einstein/下载/风车神符模拟击打短版.mp4"); //capture the video from web cam
+    VideoCapture cap("/home/einstein/桌面/wind.mp4"); //capture the video from web cam
     // if webcam is not available then exit the program
     if ( !cap.isOpened() )
     {
@@ -32,9 +32,14 @@ int main()
 
         cvtColor(image,image,COLOR_BGR2GRAY);
 
-        threshold(image, image, 100, 255, THRESH_BINARY);
+        threshold(image, image, 80, 255, THRESH_BINARY);
 
-        floodFill(image,Point(5,100),Scalar(255),0,FLOODFILL_FIXED_RANGE);
+
+        dilate(image,image,Mat());
+        dilate(image,image,Mat());
+
+
+        floodFill(image,Point(5,50),Scalar(255),0,FLOODFILL_FIXED_RANGE);
 
         threshold(image, image, 100, 255, THRESH_BINARY_INV);
 
@@ -44,15 +49,17 @@ int main()
 
             vector<Point> points;
             double area = contourArea(contours[i]);
-            if (area < 800 || 1000 < area) continue;           //装甲板范围大小
+            if (area < 50 || 1e4 < area) continue;           //装甲板链接范围大小
             drawContours(image, contours, static_cast<int>(i), Scalar(0), 2);
 
             points = contours[i];
             //cout <<area <<endl;
             RotatedRect rrect = fitEllipse(points);
             cv::Point2f* vertices = new cv::Point2f[4];
-                rrect.points(vertices);
+            rrect.points(vertices);
 
+            float aim = rrect.size.height/rrect.size.width;
+            if(aim > 1.7 && aim < 2.6){
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -65,36 +72,38 @@ int main()
 
                     vector<Point> pointsA;
                     double area = contourArea(contours[j]);
-                    if (area < 1200 || 5000 < area) continue;   //链接部分轮廓大小
+                    if (area < 50 || 1e4 < area) continue;
 
                     pointsA = contours[j];
 
                     RotatedRect rrectA = fitEllipse(pointsA);
 
+                    float aimA = rrectA.size.height/rrectA.size.width;
+
+                    if(aimA > 3.0){
                     float distance = sqrt((rrect.center.x-rrectA.center.x)*(rrect.center.x-rrectA.center.x)+
                                           (rrect.center.y-rrectA.center.y)*(rrect.center.y-rrectA.center.y));
 
 
-
                     if (middle > distance  )
                         middle = distance;
+                    }
                 }
 
-                if( middle > 100){                        //要求间距阈值大小
+                if( middle > 60){
                     cv::circle(binary,Point(rrect.center.x,rrect.center.y),15,cv::Scalar(0,0,255),4);
                 }
+            }
 
 
         }
-
 
         imshow("frame",binary);
         imshow("Original", image);
 
-        if (waitKey(100) == 'q')
+        if (waitKey(1) == 'q')
         {
             break;
         }
-
     }
 }
