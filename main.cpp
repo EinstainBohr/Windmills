@@ -77,7 +77,7 @@ int main()
                     }
                 }
 
-                if( middle > 60){                               //这个距离也要根据实际情况调
+                if( middle > 60){                               //这个距离也要根据实际情况调,和图像尺寸和物体远近有关。
                     cv::circle(binary,Point(rrect.center.x,rrect.center.y),15,cv::Scalar(0,0,255),4);
                 }
             }
