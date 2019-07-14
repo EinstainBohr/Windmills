@@ -9,23 +9,12 @@ using namespace cv;
 
 int main()
 {
-    VideoCapture cap("/home/einstein/桌面/wind.mp4"); //capture the video from web cam
-    // if webcam is not available then exit the program
-    if ( !cap.isOpened() )
-    {
-         cout << "Cannot open the web cam" << endl;
-         return -1;
-    }
-
+    VideoCapture cap("/home/einstein/桌面/wind.mp4"); 
     Mat image,binary;
-    while(true){
-        // read a new frame from webcam
-        bool flag = cap.read(image);
-         if (!flag)
-        {
-             cout << "Cannot read a frame from webcam" << endl;
-             break;
-        }
+    
+    for(;;){
+        cap.read(image);
+        
         image.copyTo(binary);
         resize(image,image,Size(image.cols*0.5,binary.rows*0.5));
         resize(binary,binary,Size(binary.cols*0.5,binary.rows*0.5));
@@ -34,11 +23,9 @@ int main()
 
         threshold(image, image, 80, 255, THRESH_BINARY);        //阈值要自己调
 
-
         dilate(image,image,Mat());
         dilate(image,image,Mat());
-
-
+        
         floodFill(image,Point(5,50),Scalar(255),0,FLOODFILL_FIXED_RANGE);
 
         threshold(image, image, 80, 255, THRESH_BINARY_INV);
