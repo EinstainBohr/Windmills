@@ -94,8 +94,6 @@ int main()
                     cv::circle(binary,Point(rrect.center.x,rrect.center.y),15,cv::Scalar(0,0,255),4);
                 }
             }
-
-
         }
 
         imshow("frame",binary);
