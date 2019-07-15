@@ -40,19 +40,16 @@ int main()
             drawContours(image, contours, static_cast<int>(i), Scalar(0), 2);
 
             points = contours[i];
-            //cout <<area <<endl;
             RotatedRect rrect = fitEllipse(points);
             cv::Point2f* vertices = new cv::Point2f[4];
             rrect.points(vertices);
 
             float aim = rrect.size.height/rrect.size.width;
             if(aim > 1.7 && aim < 2.6){
-
                 for (int j = 0; j < 4; j++)
                 {
                     cv::line(binary, vertices[j], vertices[(j + 1) % 4], cv::Scalar(0, 255, 0),4);
                 }
-
                 float middle = 100000;
 
                 for(size_t j = 1;j < contours.size();j++){
@@ -71,24 +68,17 @@ int main()
                     float distance = sqrt((rrect.center.x-rrectA.center.x)*(rrect.center.x-rrectA.center.x)+
                                           (rrect.center.y-rrectA.center.y)*(rrect.center.y-rrectA.center.y));
 
-
                     if (middle > distance  )
                         middle = distance;
                     }
                 }
-
                 if( middle > 60){                               //这个距离也要根据实际情况调,和图像尺寸和物体远近有关。
                     cv::circle(binary,Point(rrect.center.x,rrect.center.y),15,cv::Scalar(0,0,255),4);
                 }
             }
         }
-
         imshow("frame",binary);
         imshow("Original", image);
-
-        if (waitKey(1) == 'q')
-        {
-            break;
-        }
+        waitKey(1);
     }
 }
